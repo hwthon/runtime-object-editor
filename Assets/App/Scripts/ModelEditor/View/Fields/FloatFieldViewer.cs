@@ -16,27 +16,11 @@ namespace SerializableModelEditor
 
 		protected override void DrawField()
 		{
-			float floatValue = ToFloat(GetTextValue());
+			float floatValue = GetTextValue().ToFloat();
 
 			string textValue = GUILayout.TextField(floatValue.ToString());
 
-			_fieldInfo.SetValue(_model, ToFloat(textValue, floatValue));
-		}
-
-		private static float ToFloat(string text, float defaultValue = 0f)
-		{
-			float floatValue = 0f;
-
-			if (!string.IsNullOrEmpty(text))
-			{
-				bool success = float.TryParse(text, out floatValue);
-				if (!success)
-				{
-					return defaultValue;
-				}
-			}
-
-			return floatValue;
+			_fieldInfo.SetValue(_model, textValue.ToFloat(floatValue));
 		}
 	}
 }

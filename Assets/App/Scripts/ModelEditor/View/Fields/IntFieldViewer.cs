@@ -16,27 +16,11 @@ namespace SerializableModelEditor
 
 		protected override void DrawField()
 		{
-			int intValue = ToInt(GetTextValue());
+			int intValue = GetTextValue().ToInt();
 
 			string textValue = GUILayout.TextField(intValue.ToString());
 
-			_fieldInfo.SetValue(_model, ToInt(textValue, intValue));
-		}
-
-		private static int ToInt(string text, int defaultValue = 0)
-		{
-			int intValue = 0;
-
-			if (!string.IsNullOrEmpty(text))
-			{
-				bool success = int.TryParse(text, out intValue);
-				if (!success)
-				{
-					return defaultValue;
-				}
-			}
-
-			return intValue;
+			_fieldInfo.SetValue(_model, textValue.ToInt(intValue));
 		}
 	}
 }

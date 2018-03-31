@@ -5,27 +5,52 @@ using UnityEngine;
 
 namespace SerializableModelEditor
 {
+	/// <summary>
+	/// Viewerを生成するクラス
+	/// 
+	/// Resolverを登録して表示するクラスを変えることも可能
+	/// </summary>
 	public class ViewerFactory
 	{
+		/// <summary>
+		/// シングルトンインスタンス
+		/// </summary>
 		public static ViewerFactory instance;
 
+		/// <summary>
+		/// インスタンス
+		/// </summary>
 		public static ViewerFactory I { get { return instance == null ? instance = new ViewerFactory() : instance; } }
 
+		/// <summary>
+		/// 登録されている型解決クラスのリスト
+		/// </summary>
 		private List<Resolver> _resolvers = new List<Resolver>();
 
+		/// <summary>
+		/// 初期化処理
+		/// ここではデフォルトの型解決クラスを登録する
+		/// </summary>
 		private ViewerFactory()
 		{
 			AddResolver(new TextFieldResolver());
 		}
 
+		/// <summary>
+		/// 型解決クラスの登録
+		/// </summary>
 		public ViewerFactory AddResolver(Resolver resolver)
 		{
 			_resolvers.Add(resolver);
 			return this;
 		}
 
+		/// <summary>
+		/// typeの型解決クラスを取得する
+		/// </summary>
 		public Resolver FindResolver(System.Type type)
 		{
+			// TODO: 優先順位とか？
 			foreach (Resolver resolver in _resolvers)
 			{
 				if (resolver.Available(type))
@@ -36,35 +61,13 @@ namespace SerializableModelEditor
 			return null;
 		}
 
+		/// <summary>
+		/// Viewerを生成する
+		/// </summary>
 		public Viewer Create(object model, FieldInfo fieldInfo)
 		{
 			Resolver resolver = FindResolver(fieldInfo.FieldType);
-			if (resolver == null)
-			{
-				return null;
-			}
-			
-			return resolver.Instantiate(model, fieldInfo);
-		}
-	}
-
-	public abstract class Resolver
-	{
-		public abstract bool Available(System.Type type);
-
-		public abstract Viewer Instantiate(object model, FieldInfo fieldInfo);
-	}
-
-	public class TextFieldResolver : Resolver
-	{
-		public override bool Available(System.Type type)
-		{
-			return TextFieldViewer.Available(type);
-		}
-
-		public override Viewer Instantiate(object model, FieldInfo fieldInfo)
-		{
-			return new TextFieldViewer(model, fieldInfo);
+			return resolver == null ? null : resolver.Instantiate(model, fieldInfo);
 		}
 	}
 }
