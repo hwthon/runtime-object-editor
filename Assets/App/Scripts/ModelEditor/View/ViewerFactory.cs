@@ -39,7 +39,8 @@ namespace SerializableModelEditor
 				.AddResolver(new BooleanFieldResolver())
 				.AddResolver(new Vector2FieldResolver())
 				.AddResolver(new Vector3FieldResolver())
-				.AddResolver(new Vector4FieldResolver());
+				.AddResolver(new Vector4FieldResolver())
+				.AddResolver(new ColorFieldResolver());
 		}
 
 		/// <summary>
