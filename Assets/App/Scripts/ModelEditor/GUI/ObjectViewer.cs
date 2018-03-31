@@ -38,7 +38,7 @@ namespace SerializableModelEditor
 
 			foreach (FieldInfo fieldInfo in _model.GetType().GetFields())
 			{
-				Viewer viewer = Factory.Create(this, _model, fieldInfo);
+				Viewer viewer = ViewerFactory.I.Create(_model, fieldInfo);
 				if (viewer == null)
 				{
 					Debug.LogWarning("viewer is null.");
