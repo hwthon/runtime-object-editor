@@ -4,8 +4,8 @@ using UnityEngine;
 
 namespace SerializableModelEditor
 {
-	public class Field : MonoBehaviour
-	{ 
+	public class FieldFactory : MonoBehaviour
+	{
 
 	}
 }
