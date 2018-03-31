@@ -42,7 +42,7 @@ namespace SerializableModelEditor
 
 		public void SetParent(ObjectViewer parent = null)
 		{
-_parent = parent;
+			_parent = parent;
 		}
 
 		/// <summary>

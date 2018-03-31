@@ -26,6 +26,10 @@ namespace SerializableModelEditor
 			}
 
 			// TODO: リスト
+			if (TextArrayFieldViewer.Available(fieldInfo.FieldType))
+			{
+				return new TextArrayFieldViewer(model, fieldInfo);
+			}
 
 			if (IsClass(fieldInfo.FieldType))
 			{

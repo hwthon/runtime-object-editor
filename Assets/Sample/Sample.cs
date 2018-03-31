@@ -20,8 +20,15 @@ public class Sample : MonoBehaviour
 		public float range4;
 		public float range5;
 
+		// public bool toggle;
+		// public Vector2 vector2;
+		// public Vector3 vector3;
+		// public Vector4 vector4;
+		// public Color color;
+
 		public Test2Model test2;
 	}
+
 
 	[System.Serializable]
 	public class Test2Model
