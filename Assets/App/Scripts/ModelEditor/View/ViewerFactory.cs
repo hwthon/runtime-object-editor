@@ -33,7 +33,13 @@ namespace SerializableModelEditor
 		/// </summary>
 		private ViewerFactory()
 		{
-			AddResolver(new TextFieldResolver());
+			AddResolver(new TextFieldResolver())
+				.AddResolver(new IntFieldResolver())
+				.AddResolver(new FloatFieldResolver())
+				.AddResolver(new BooleanFieldResolver())
+				.AddResolver(new Vector2FieldResolver())
+				.AddResolver(new Vector3FieldResolver())
+				.AddResolver(new Vector4FieldResolver());
 		}
 
 		/// <summary>

@@ -25,7 +25,7 @@ namespace SerializableModelEditor
 
 			using(new FieldScope(false))
 			{
-				GUILayout.Label(_fieldInfo.Name);
+				GUILayout.Label(string.Format("{0} ({1})", _fieldInfo.Name, _fieldInfo.FieldType));
 				DrawField();
 			}
 		}
