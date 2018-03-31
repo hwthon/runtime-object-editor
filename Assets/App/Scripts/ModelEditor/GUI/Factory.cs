@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace SerializableModelEditor
 {
-	public static class FieldFactory
+	public static class Factory
 	{
 		public static Viewer Create(object model, FieldInfo fieldInfo)
 		{
@@ -35,6 +35,18 @@ namespace SerializableModelEditor
 			return new FieldViewer(model, fieldInfo);
 		}
 
+		public static Viewer Create(ObjectViewer parent, object model, FieldInfo fieldInfo)
+		{
+			Viewer viewer = Create(model, fieldInfo);
+
+			var objectViewer = viewer as ObjectViewer;
+			if (objectViewer != null)
+			{
+				objectViewer.SetParent(parent);
+			}
+
+			return viewer;
+		}
 
 		public static bool IsClass(System.Type type)
 		{

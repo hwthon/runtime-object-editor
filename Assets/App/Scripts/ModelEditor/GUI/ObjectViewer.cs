@@ -5,6 +5,9 @@ using UnityEngine;
 
 namespace SerializableModelEditor
 {
+	/// <summary>
+	/// オブジェクトの編集
+	/// </summary>
 	public class ObjectViewer : Viewer
 	{
 		private object _model;
@@ -26,7 +29,7 @@ namespace SerializableModelEditor
 
 			foreach (FieldInfo fieldInfo in _model.GetType().GetFields())
 			{
-				Viewer viewer = FieldFactory.Create(_model, fieldInfo);
+				Viewer viewer = Factory.Create(this, _model, fieldInfo);
 				if (viewer == null)
 				{
 					Debug.LogWarning("viewer is null.");
@@ -35,6 +38,11 @@ namespace SerializableModelEditor
 
 				_viewers.Add(viewer);
 			}
+		}
+
+		public void SetParent(ObjectViewer parent = null)
+		{
+_parent = parent;
 		}
 
 		/// <summary>
@@ -52,9 +60,16 @@ namespace SerializableModelEditor
 		public override void OnGUI()
 		{
 			// TODO: field名が欲しい
-			if (GUILayout.Button(_model.GetType().Name))
+			if (_parent != null)
 			{
-				_foldout = !_foldout;
+				using(new GUILayout.HorizontalScope())
+				{
+					if (GUILayout.Button(_foldout ? "▼" : "▶︎", GUILayout.ExpandWidth(false)))
+					{
+						_foldout = !_foldout;
+					}
+					GUILayout.Label(_model.GetType().Name);
+				}
 			}
 
 			if (_foldout)
