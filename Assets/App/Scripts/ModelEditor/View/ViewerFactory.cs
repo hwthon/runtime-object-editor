@@ -40,7 +40,8 @@ namespace SerializableModelEditor
 				.AddResolver(new Vector2FieldResolver())
 				.AddResolver(new Vector3FieldResolver())
 				.AddResolver(new Vector4FieldResolver())
-				.AddResolver(new ColorFieldResolver());
+				.AddResolver(new ColorFieldResolver())
+				.AddResolver(new ObjectFieldResolver());
 		}
 
 		/// <summary>
@@ -71,10 +72,32 @@ namespace SerializableModelEditor
 		/// <summary>
 		/// Viewerを生成する
 		/// </summary>
+		public Viewer Create(object model)
+		{
+			Resolver resolver = FindResolver(model.GetType());
+			return resolver == null ? null : resolver.Instantiate(model);
+		}
+
+		/// <summary>
+		/// Viewerを生成する
+		/// </summary>
 		public Viewer Create(object model, FieldInfo fieldInfo)
 		{
 			Resolver resolver = FindResolver(fieldInfo.FieldType);
 			return resolver == null ? null : resolver.Instantiate(model, fieldInfo);
+		}
+
+		/// <summary>
+		/// Viewerを生成する
+		/// </summary>
+		public Viewer Create(Viewer parent, object model, FieldInfo fieldInfo)
+		{
+			Viewer viewer = Create(model, fieldInfo);
+			if (viewer != null)
+			{
+				viewer.SetParent(parent);
+			}
+			return viewer;
 		}
 	}
 }

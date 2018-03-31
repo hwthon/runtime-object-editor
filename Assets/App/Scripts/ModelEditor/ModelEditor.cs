@@ -23,7 +23,7 @@ namespace SerializableModelEditor
 		/// <summary>
 		/// オブジェクトの編集
 		/// </summary>
-		private ObjectViewer _objectViewer;
+		private Viewer _rootViewer;
 
 		/// <summary>
 		/// スクロール位置
@@ -44,7 +44,7 @@ namespace SerializableModelEditor
 		{
 			_enable = true;
 			_scrollPosition = Vector2.zero;
-			_objectViewer = new ObjectViewer(model);
+			_rootViewer = ViewerFactory.I.Create(model);
 			_onClose = onClose;
 		}
 
@@ -53,7 +53,7 @@ namespace SerializableModelEditor
 		/// </summary>
 		private void OnGUI()
 		{
-			if (!_enable || _objectViewer == null)
+			if (!_enable || _rootViewer == null)
 			{
 				return;
 			}
@@ -103,7 +103,7 @@ namespace SerializableModelEditor
 		{
 			using(var scrollScope = new GUILayout.ScrollViewScope(_scrollPosition))
 			{
-				_objectViewer.OnGUI();
+				_rootViewer.OnGUI();
 
 				_scrollPosition = scrollScope.scrollPosition;
 			}

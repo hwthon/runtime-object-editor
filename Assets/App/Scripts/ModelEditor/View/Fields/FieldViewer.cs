@@ -16,7 +16,7 @@ namespace SerializableModelEditor
 			_fieldInfo = fieldInfo;
 		}
 
-		public sealed override void OnGUI()
+		public override void OnGUI()
 		{
 			if (_model == null || _fieldInfo == null)
 			{

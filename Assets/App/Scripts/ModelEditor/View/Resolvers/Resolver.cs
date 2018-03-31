@@ -18,6 +18,6 @@ namespace SerializableModelEditor
 		/// <summary>
 		/// Viewerを生成する
 		/// </summary>
-		public abstract Viewer Instantiate(object model, FieldInfo fieldInfo);
+		public abstract Viewer Instantiate(object model, FieldInfo fieldInfo = null);
 	}
 }

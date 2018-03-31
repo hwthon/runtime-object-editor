@@ -5,40 +5,22 @@ using UnityEngine;
 
 namespace SerializableModelEditor
 {
-	/// <summary>
-	/// オブジェクトの編集
-	/// </summary>
-	public class ObjectViewer : Viewer
+	public class ObjectFieldViewer : FieldViewer
 	{
-		private object _model;
-
-		private ObjectViewer _parent;
-
-		private int Indent
-		{
-			get
-			{
-				if (_parent == null)
-				{
-					return 0;
-				}
-				return _parent.Indent + 1;
-			}
-		}
+		private int Indent { get { return Parents; } }
 
 		private bool _foldout = true;
 
 		private List<Viewer> _viewers;
 
-		public ObjectViewer(object model, ObjectViewer parent = null)
+		public ObjectFieldViewer(object model, FieldInfo fieldInfo) : base(model, fieldInfo)
 		{
-			_model = model;
-			SetParent(parent);
+			_model = fieldInfo == null ? model : fieldInfo.GetValue(model);
 			_viewers = new List<Viewer>();
 
-			foreach (FieldInfo fieldInfo in _model.GetType().GetFields())
+			foreach (FieldInfo _fieldInfo in _model.GetType().GetFields())
 			{
-				Viewer viewer = ViewerFactory.I.Create(_model, fieldInfo);
+				Viewer viewer = ViewerFactory.I.Create(this, _model, _fieldInfo);
 				if (viewer == null)
 				{
 					Debug.LogWarning("viewer is null.");
@@ -49,9 +31,10 @@ namespace SerializableModelEditor
 			}
 		}
 
-		public void SetParent(ObjectViewer parent = null)
+		public static bool Available(System.Type type)
 		{
-			_parent = parent;
+			// TODO: not list
+			return type.IsClass;
 		}
 
 		public override void OnGUI()
