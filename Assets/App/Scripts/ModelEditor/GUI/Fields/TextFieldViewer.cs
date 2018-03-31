@@ -7,9 +7,11 @@ namespace SerializableModelEditor
 {
 	public class TextFieldViewer : FieldViewer
 	{
-		public TextFieldViewer(object model, FieldInfo fieldInfo) : base(model, fieldInfo)
-		{
+		public TextFieldViewer(object model, FieldInfo fieldInfo) : base(model, fieldInfo) { }
 
+		public static bool Available(System.Type type)
+		{
+			return type == typeof(string);
 		}
 
 		protected override void DrawField()

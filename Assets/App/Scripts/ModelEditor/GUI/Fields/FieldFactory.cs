@@ -10,19 +10,19 @@ namespace SerializableModelEditor
 		public static Viewer Create(object model, FieldInfo fieldInfo)
 		{
 			Debug.Log(fieldInfo.Name + " is " + fieldInfo.FieldType);
-			if (IsText(fieldInfo.FieldType))
+			if (TextFieldViewer.Available(fieldInfo.FieldType))
 			{
 				return new TextFieldViewer(model, fieldInfo);
 			}
 
-			if (IsInt(fieldInfo.FieldType))
+			if (IntFieldViewer.Available(fieldInfo.FieldType))
 			{
-				return new FieldViewer(model, fieldInfo);
+				return new IntFieldViewer(model, fieldInfo);
 			}
 
-			if (IsFloat(fieldInfo.FieldType))
+			if (FloatFieldViewer.Available(fieldInfo.FieldType))
 			{
-				return new FieldViewer(model, fieldInfo);
+				return new FloatFieldViewer(model, fieldInfo);
 			}
 
 			// TODO: リスト
@@ -35,20 +35,6 @@ namespace SerializableModelEditor
 			return new FieldViewer(model, fieldInfo);
 		}
 
-		public static bool IsText(System.Type type)
-		{
-			return type == typeof(string) || type == typeof(System.String);
-		}
-
-		public static bool IsInt(System.Type type)
-		{
-			return type == typeof(int);
-		}
-
-		public static bool IsFloat(System.Type type)
-		{
-			return type == typeof(float);
-		}
 
 		public static bool IsClass(System.Type type)
 		{

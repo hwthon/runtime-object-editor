@@ -30,6 +30,12 @@ namespace SerializableModelEditor
 			}
 		}
 
+		protected string GetTextValue()
+		{
+			object value = _fieldInfo.GetValue(_model);
+			return value == null ? string.Empty : value.ToString();
+		}
+
 		protected virtual void DrawField()
 		{
 			GUILayout.TextField(_fieldInfo.GetValue(_model) != null ? _fieldInfo.GetValue(_model).ToString() : "");
