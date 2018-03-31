@@ -20,10 +20,16 @@ public class Sample : MonoBehaviour
 	[System.Serializable]
 	public class Test2Model
 	{
+		public string name;
+
+		public int count;
+
+		public float range;
+
 		public List<string> texts;
 	}
 
-	public Viewer viewer;
+	public ModelEditor modelEditor;
 
 	public TestModel testModel = new TestModel
 	{
@@ -47,7 +53,7 @@ public class Sample : MonoBehaviour
 	// Use this for initialization
 	void Start()
 	{
-		viewer.Show(testModel);
+		modelEditor.Show(testModel);
 	}
 
 	// Update is called once per frame

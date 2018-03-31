@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace SerializableModelEditor
 {
-	public class FieldViewer
+	public class FieldViewer : Viewer
 	{
 		protected object _model;
 		protected FieldInfo _fieldInfo;
@@ -16,18 +16,23 @@ namespace SerializableModelEditor
 			_fieldInfo = fieldInfo;
 		}
 
-		public virtual void OnGUI()
+		public sealed override void OnGUI()
 		{
 			if (_model == null || _fieldInfo == null)
 			{
 				return;
 			}
-			
+
 			using(new GUILayout.HorizontalScope())
 			{
 				GUILayout.Label(_fieldInfo.Name);
-				GUILayout.TextField(_fieldInfo.GetValue(_model).ToString());
+				DrawField();
 			}
+		}
+
+		protected virtual void DrawField()
+		{
+			GUILayout.TextField(_fieldInfo.GetValue(_model) != null ? _fieldInfo.GetValue(_model).ToString() : "");
 		}
 	}
 }

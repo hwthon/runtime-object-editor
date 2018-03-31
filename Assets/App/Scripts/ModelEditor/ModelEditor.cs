@@ -1,18 +1,16 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-// using UnityEngine.UI;
 
 namespace SerializableModelEditor
 {
-	public class Viewer : MonoBehaviour
+	public class ModelEditor : MonoBehaviour
 	{
-		private ObjectViewer _viewer = new ObjectViewer();
+		private ObjectViewer _viewer;
 
 		public void Show(object model)
 		{
-			// _root.Initialize(model);
-			_viewer.Initialize(model);
+			_viewer = new ObjectViewer(model);
 		}
 
 		private void OnGUI()

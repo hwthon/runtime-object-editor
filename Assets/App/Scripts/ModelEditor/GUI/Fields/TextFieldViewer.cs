@@ -11,5 +11,11 @@ namespace SerializableModelEditor
 		{
 
 		}
+
+		protected override void DrawField()
+		{
+			string text = _fieldInfo.GetValue(_model) as string ?? "";
+			_fieldInfo.SetValue(_model, GUILayout.TextField(text));
+		}
 	}
 }

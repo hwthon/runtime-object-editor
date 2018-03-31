@@ -188,7 +188,7 @@ GameObject:
   - component: {fileID: 1382448281}
   - component: {fileID: 1382448282}
   m_Layer: 0
-  m_Name: Viewer
+  m_Name: ModelEditor
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -245,7 +245,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a1f0441d2376746209de621a61145b53, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  viewer: {fileID: 1382448282}
+  modelEditor: {fileID: 1382448282}
   testModel:
     name: test
     count: 1
