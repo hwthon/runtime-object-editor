@@ -37,11 +37,14 @@ namespace SerializableModelEditor
 		{
 			foreach (FieldInfo fieldInfo in _model.GetType().GetFields())
 			{
-				using(new GUILayout.HorizontalScope())
+				FieldViewer fieldViewer = FieldFactory.Create(_model, fieldInfo);
+				if (fieldViewer == null)
 				{
-					GUILayout.Label(fieldInfo.Name);
-					GUILayout.TextField(fieldInfo.GetValue(_model).ToString());
+					Debug.LogWarning("field viewer is null.");
+					continue;
 				}
+
+				fieldViewer.OnGUI();
 			}
 		}
 	}

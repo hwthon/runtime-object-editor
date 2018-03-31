@@ -5,11 +5,11 @@ using UnityEngine;
 
 namespace SerializableModelEditor
 {
-	public static class FieldFactory
+	public class TextFieldViewer : FieldViewer
 	{
-		public static FieldViewer Create(object model, FieldInfo fieldInfo)
+		public TextFieldViewer(object model, FieldInfo fieldInfo) : base(model, fieldInfo)
 		{
-			return new FieldViewer(model, fieldInfo);
+
 		}
 	}
 }
