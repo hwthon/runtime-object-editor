@@ -14,6 +14,12 @@ public class Sample : MonoBehaviour
 
 		public float range;
 
+		public float range1;
+		public float range2;
+		public float range3;
+		public float range4;
+		public float range5;
+
 		public Test2Model test2;
 	}
 
@@ -25,6 +31,12 @@ public class Sample : MonoBehaviour
 		public int count;
 
 		public float range;
+
+		public float range1;
+		public float range2;
+		public float range3;
+		public float range4;
+		public float range5;
 
 		public List<string> texts;
 	}
@@ -53,12 +65,30 @@ public class Sample : MonoBehaviour
 	// Use this for initialization
 	void Start()
 	{
-		modelEditor.Show(testModel);
+		modelEditor.Show(testModel, () =>
+		{
+			Debug.Log("closed");
+		});
 	}
 
-	// Update is called once per frame
-	void Update()
+	void OnGUI()
 	{
+		if (!modelEditor.Visible)
+		{
+			float headerHeight = Screen.height / 10f;
 
+			using(new GUILayout.AreaScope(new Rect(0f, 0f, Screen.width, headerHeight)))
+			{
+				using(new GUILayout.HorizontalScope())
+				{
+					GUILayout.Label("a", GUILayout.ExpandWidth(true));
+
+					if (GUILayout.Button("X", GUILayout.ExpandWidth(false)))
+					{
+						modelEditor.Show(testModel);
+					}
+				}
+			}
+		}
 	}
 }
