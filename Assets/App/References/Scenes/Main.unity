@@ -1081,9 +1081,9 @@ GameObject:
   serializedVersion: 5
   m_Component:
   - component: {fileID: 1596785830}
+  - component: {fileID: 1596785833}
   - component: {fileID: 1596785832}
   - component: {fileID: 1596785831}
-  - component: {fileID: 1596785833}
   m_Layer: 5
   m_Name: SerializableModelEditor
   m_TagString: Untagged
@@ -1155,6 +1155,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 30803fd4b207d4a9ab0eb1f080e14d94, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  _root: {fileID: 1770920009}
 --- !u!1 &1663884384
 GameObject:
   m_ObjectHideFlags: 0
