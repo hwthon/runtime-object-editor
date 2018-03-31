@@ -23,7 +23,7 @@ namespace SerializableModelEditor
 				return;
 			}
 
-			using(new GUILayout.HorizontalScope())
+			using(new FieldScope(false))
 			{
 				GUILayout.Label(_fieldInfo.Name);
 				DrawField();

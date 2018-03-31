@@ -14,7 +14,17 @@ namespace SerializableModelEditor
 
 		private ObjectViewer _parent;
 
-		private int _indent;
+		private int Indent
+		{
+			get
+			{
+				if (_parent == null)
+				{
+					return 0;
+				}
+				return _parent.Indent + 1;
+			}
+		}
 
 		private bool _foldout = true;
 
@@ -23,8 +33,7 @@ namespace SerializableModelEditor
 		public ObjectViewer(object model, ObjectViewer parent = null)
 		{
 			_model = model;
-			_parent = parent;
-			_indent = CalculateIndent();
+			SetParent(parent);
 			_viewers = new List<Viewer>();
 
 			foreach (FieldInfo fieldInfo in _model.GetType().GetFields())
@@ -45,24 +54,12 @@ namespace SerializableModelEditor
 			_parent = parent;
 		}
 
-		/// <summary>
-		/// インデントの計算
-		/// </summary>
-		public int CalculateIndent()
-		{
-			if (_parent == null)
-			{
-				return 0;
-			}
-			return _parent.CalculateIndent() + 1;
-		}
-
 		public override void OnGUI()
 		{
 			// TODO: field名が欲しい
 			if (_parent != null)
 			{
-				using(new GUILayout.HorizontalScope())
+				using(new FieldScope(false))
 				{
 					if (GUILayout.Button(_foldout ? "▼" : "▶︎", GUILayout.ExpandWidth(false)))
 					{
@@ -74,9 +71,12 @@ namespace SerializableModelEditor
 
 			if (_foldout)
 			{
-				foreach (Viewer viewer in _viewers)
+				using(new IndentScope(Indent))
 				{
-					viewer.OnGUI();
+					foreach (Viewer viewer in _viewers)
+					{
+						viewer.OnGUI();
+					}
 				}
 			}
 		}
