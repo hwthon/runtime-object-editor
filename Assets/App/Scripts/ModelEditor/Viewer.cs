@@ -7,17 +7,20 @@ namespace SerializableModelEditor
 {
 	public class Viewer : MonoBehaviour
 	{
-		[SerializeField]
-		private ObjectViewer _root;
+		private ObjectViewer _viewer = new ObjectViewer();
 
 		public void Show(object model)
 		{
-			_root.Initialize(model);
+			// _root.Initialize(model);
+			_viewer.Initialize(model);
 		}
 
-		private void Update()
+		private void OnGUI()
 		{
-
+			using(new GUILayout.AreaScope(new Rect(0f, 0f, Screen.width, Screen.height)))
+			{
+				_viewer.OnGUI();
+			}
 		}
 	}
 }

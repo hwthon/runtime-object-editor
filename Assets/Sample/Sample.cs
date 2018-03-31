@@ -32,13 +32,17 @@ public class Sample : MonoBehaviour
 			test2 = new Test2Model { texts = new List<string>() { "abc", "def", "ggg" } }
 	};
 
-	private void OnGUI()
-	{
-		using(new GUILayout.AreaScope(new Rect(0f, 0f, Screen.width, Screen.height)))
-		{
-			GUILayout.TextField("a");
-		}
-	}
+	// private void OnGUI()
+	// {
+	// using(new GUILayout.AreaScope(new Rect(0f, 0f, Screen.width, Screen.height)))
+	// 	{
+	// 		using(new GUILayout.HorizontalScope())
+	// 		{
+	// 			GUILayout.Label("name");
+	// 			GUILayout.TextField("aaaa");
+	// 		}
+	// 	}
+	// }
 
 	// Use this for initialization
 	void Start()
