@@ -79,7 +79,7 @@ public class Sample : MonoBehaviour
 
 			using(new GUILayout.AreaScope(new Rect(0f, 0f, Screen.width, headerHeight)))
 			{
-				using(new GUILayout.HorizontalScope())
+				using(new GUILayout.HorizontalScope(GUI.skin.box))
 				{
 					GUILayout.Label("a", GUILayout.ExpandWidth(true));
 

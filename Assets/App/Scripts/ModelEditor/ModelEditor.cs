@@ -65,21 +65,23 @@ namespace SerializableModelEditor
 
 			float headerHeight = Screen.height / 10f;
 
-			using(new GUILayout.AreaScope(new Rect(0f, 0f, Screen.width, headerHeight)))
+			using(new GUILayout.AreaScope(new Rect(0f, 0f, Screen.width, Screen.height), string.Empty, GUI.skin.box))
 			{
-				using(new GUILayout.HorizontalScope())
+				using(new GUILayout.AreaScope(new Rect(0f, 0f, Screen.width, headerHeight)))
 				{
-					GUILayout.Label("ModelEditor", GUILayout.ExpandWidth(true));
-
-					if (GUILayout.Button("X", GUILayout.ExpandWidth(false)))
+					using(new GUILayout.HorizontalScope(GUI.skin.box))
 					{
-						Close();
+						GUILayout.Label("ModelEditor", GUILayout.ExpandWidth(true));
+
+						if (GUILayout.Button("x", GUILayout.ExpandWidth(false)))
+						{
+							Close();
+						}
 					}
 				}
-			}
 
-			using(new GUILayout.AreaScope(new Rect(0f, headerHeight, Screen.width, Screen.height - headerHeight)))
-			{
+				using(new GUILayout.AreaScope(new Rect(0f, headerHeight, Screen.width, Screen.height - headerHeight)))
+				using(new GUILayout.VerticalScope(GUI.skin.box))
 				using(var scrollScope = new GUILayout.ScrollViewScope(_scrollPosition))
 				{
 					_objectViewer.OnGUI();
