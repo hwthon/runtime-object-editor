@@ -41,7 +41,18 @@ namespace SerializableModelEditor
 				.AddResolver(new Vector3FieldResolver())
 				.AddResolver(new Vector4FieldResolver())
 				.AddResolver(new ColorFieldResolver())
+
+				// list
 				.AddResolver(new TextListFieldResolver())
+				.AddResolver(new IntListFieldResolver())
+				.AddResolver(new FloatListFieldResolver())
+				.AddResolver(new BooleanListFieldResolver())
+				.AddResolver(new Vector2ListFieldResolver())
+				.AddResolver(new Vector3ListFieldResolver())
+				.AddResolver(new Vector4ListFieldResolver())
+				.AddResolver(new ColorListFieldResolver())
+
+				// object
 				.AddResolver(new ObjectFieldResolver());
 		}
 
