@@ -34,7 +34,7 @@ namespace SerializableModelEditor
 		public static bool Available(System.Type type)
 		{
 			// TODO: not list
-			return type.IsClass;
+			return type.IsClass && type.GetFields().Length > 0;
 		}
 
 		public override void OnGUI()

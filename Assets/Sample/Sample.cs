@@ -14,12 +14,6 @@ public class Sample : MonoBehaviour
 
 		public float range;
 
-		public float range1;
-		public float range2;
-		public float range3;
-		public float range4;
-		public float range5;
-
 		public bool toggle;
 		public Vector2 vector2;
 		public Vector3 vector3;
@@ -28,7 +22,6 @@ public class Sample : MonoBehaviour
 
 		public Test2Model test2;
 	}
-
 
 	[System.Serializable]
 	public class Test2Model
@@ -39,13 +32,20 @@ public class Sample : MonoBehaviour
 
 		public float range;
 
-		public float range1;
-		public float range2;
-		public float range3;
-		public float range4;
-		public float range5;
-
 		public List<string> texts;
+		public List<int> ints;
+		public List<float> floats;
+		public List<bool> bools;
+		public List<Vector2> vector2s;
+		public List<Vector3> vector3s;
+		public List<Vector4> vector4s;
+		public List<Color> colors;
+		public List<Test3Model> test3s;
+	}
+
+	public class Test3Model
+	{
+		public string name;
 	}
 
 	public ModelEditor modelEditor;
