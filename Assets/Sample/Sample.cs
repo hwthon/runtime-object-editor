@@ -1,6 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using SerializableModelEditor;
+using RuntimeObjectEditor;
 using UnityEngine;
 
 public class Sample : MonoBehaviour
@@ -48,7 +48,7 @@ public class Sample : MonoBehaviour
 		public string name;
 	}
 
-	public ModelEditor modelEditor;
+	public ObjectEditor modelEditor;
 
 	public TestModel testModel = new TestModel
 	{
@@ -72,7 +72,7 @@ public class Sample : MonoBehaviour
 	// Use this for initialization
 	void Start()
 	{
-		modelEditor.Show(testModel, () =>
+		modelEditor.Open(testModel, () =>
 		{
 			Debug.Log("closed");
 		});
@@ -92,7 +92,7 @@ public class Sample : MonoBehaviour
 
 					if (GUILayout.Button("X", GUILayout.ExpandWidth(false)))
 					{
-						modelEditor.Show(testModel);
+						modelEditor.Open(testModel);
 					}
 				}
 			}
