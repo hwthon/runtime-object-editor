@@ -1,3 +1,4 @@
 {
-  "name": "serializable-model-editor-for-ugui"
+  "name": "runtime-object-editor",
+  "export": "Assets/Package"
 }
