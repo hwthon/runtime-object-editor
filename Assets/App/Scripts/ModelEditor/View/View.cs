@@ -21,7 +21,7 @@ namespace SerializableModelEditor
 
 		public IndentScope(int indentLevel)
 		{
-			_indentLevel = indentLevel;
+			_indentLevel = View.indentLevel;
 			View.indentLevel = indentLevel;
 		}
 
