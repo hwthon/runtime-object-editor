@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 namespace RuntimeObjectEditor
 {
@@ -31,6 +32,11 @@ namespace RuntimeObjectEditor
 		private Vector2 _scrollPosition;
 
 		/// <summary>
+		/// レイキャスト防止パネル
+		/// </summary>
+		private GameObject _blockingPanel;
+
+		/// <summary>
 		/// 終了時コールバック
 		/// </summary>
 		private System.Action _onClose;
@@ -42,10 +48,80 @@ namespace RuntimeObjectEditor
 		/// <param name="onClose">編集終了時呼び出し</param>
 		public void Open(object model, System.Action onClose = null)
 		{
+			if (model == null)
+			{
+				Close();
+				return;
+			}
+
 			_enable = true;
 			_scrollPosition = Vector2.zero;
 			_rootViewer = ViewerFactory.I.Create(model);
 			_onClose = onClose;
+
+			Foreground();
+		}
+
+		/// <summary>
+		/// 最前面に表示
+		/// </summary>
+		private void Foreground()
+		{
+			transform.SetParent(null, false);
+
+			int maxSortingOrder = 0;
+			Canvas[] canvases = FindObjectsOfType<Canvas>();
+			foreach (Canvas canvas in canvases)
+			{
+				maxSortingOrder = Mathf.Max(maxSortingOrder, canvas.sortingOrder);
+			}
+
+			var screenCanvas = AddUniqueComponent<Canvas>();
+			screenCanvas.renderMode = RenderMode.ScreenSpaceOverlay;
+			screenCanvas.sortingOrder = maxSortingOrder + 1;
+
+			var scaler = AddUniqueComponent<CanvasScaler>();
+			scaler.uiScaleMode = CanvasScaler.ScaleMode.ScaleWithScreenSize;
+			scaler.referenceResolution = new Vector2(1024f, 800f);
+			scaler.screenMatchMode = CanvasScaler.ScreenMatchMode.Expand;
+			scaler.matchWidthOrHeight = 0f;
+
+			AddUniqueComponent<GraphicRaycaster>();
+
+			ActivateBlockingPanel();
+		}
+
+		/// <summary>
+		/// コンポーネントをつける（あればつけない）
+		/// </summary>
+		private T AddUniqueComponent<T>() where T : Component
+		{
+			var component = gameObject.GetComponent<T>();
+			if (component == null)
+			{
+				component = gameObject.AddComponent<T>();
+			}
+			return component;
+		}
+
+		/// <summary>
+		/// タッチ防止パネルを有効化する
+		/// </summary>
+		private void ActivateBlockingPanel()
+		{
+			if (_blockingPanel == null)
+			{
+				_blockingPanel = new GameObject("Block");
+				_blockingPanel.transform.SetParent(transform);
+
+				var image = _blockingPanel.AddComponent<Image>();
+				image.rectTransform.anchorMin = Vector2.zero;
+				image.rectTransform.anchorMax = Vector2.one;
+				image.rectTransform.offsetMin = new Vector2(0f, 0f);
+				image.rectTransform.offsetMax = new Vector2(0f, 0f);
+				image.color = Color.white;
+			}
+			_blockingPanel.SetActive(true);
 		}
 
 		/// <summary>
@@ -64,6 +140,9 @@ namespace RuntimeObjectEditor
 			}
 		}
 
+		/// <summary>
+		/// 画面描画
+		/// </summary>
 		private void DrawScreen()
 		{
 			float headerHeight = Screen.height / 10f;
@@ -114,6 +193,16 @@ namespace RuntimeObjectEditor
 		/// </summary>
 		public void Close()
 		{
+			if (!_enable)
+			{
+				return;
+			}
+
+			if (_blockingPanel != null)
+			{
+				_blockingPanel.SetActive(false);
+			}
+
 			_enable = false;
 			if (_onClose != null)
 			{

@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System.Linq;
+using System.Collections;
 using System.Collections.Generic;
 using System.Reflection;
 using UnityEngine;
@@ -18,7 +19,7 @@ namespace RuntimeObjectEditor
 			_model = fieldInfo == null ? model : fieldInfo.GetValue(model);
 			_viewers = new List<Viewer>();
 
-			foreach (FieldInfo _fieldInfo in _model.GetType().GetFields())
+			foreach (FieldInfo _fieldInfo in _model.GetType().GetSerializableFields())
 			{
 				Viewer viewer = ViewerFactory.I.Create(this, _model, _fieldInfo);
 				if (viewer == null)
@@ -34,7 +35,7 @@ namespace RuntimeObjectEditor
 		public static bool Available(System.Type type)
 		{
 			// TODO: not list
-			return type.IsClass && type.GetFields().Length > 0;
+			return type.IsClass && type.GetSerializableFields().ToArray().Length > 0;
 		}
 
 		public override void OnGUI()
