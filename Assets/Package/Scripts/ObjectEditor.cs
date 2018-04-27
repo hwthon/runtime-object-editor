@@ -8,6 +8,7 @@ namespace RuntimeObjectEditor
 	/// <summary>
 	/// オブジェクトの値を編集可能なGUI
 	/// </summary>
+	[RequireComponent(typeof(FrontestCanvas))]
 	public class ObjectEditor : MonoBehaviour
 	{
 		/// <summary>
@@ -32,14 +33,14 @@ namespace RuntimeObjectEditor
 		private Vector2 _scrollPosition;
 
 		/// <summary>
-		/// レイキャスト防止パネル
-		/// </summary>
-		private GameObject _blockingPanel;
-
-		/// <summary>
 		/// 終了時コールバック
 		/// </summary>
 		private System.Action _onClose;
+
+		[SerializeField]
+		EditorGUIStyle guiStyle;
+
+		public FrontestCanvas canvas { get { return GetComponent<FrontestCanvas>() ?? gameObject.AddComponent<FrontestCanvas>(); } }
 
 		/// <summary>
 		/// 表示する
@@ -59,69 +60,7 @@ namespace RuntimeObjectEditor
 			_rootViewer = ViewerFactory.I.Create(model);
 			_onClose = onClose;
 
-			Foreground();
-		}
-
-		/// <summary>
-		/// 最前面に表示
-		/// </summary>
-		private void Foreground()
-		{
-			transform.SetParent(null, false);
-
-			int maxSortingOrder = 0;
-			Canvas[] canvases = FindObjectsOfType<Canvas>();
-			foreach (Canvas canvas in canvases)
-			{
-				maxSortingOrder = Mathf.Max(maxSortingOrder, canvas.sortingOrder);
-			}
-
-			var screenCanvas = AddUniqueComponent<Canvas>();
-			screenCanvas.renderMode = RenderMode.ScreenSpaceOverlay;
-			screenCanvas.sortingOrder = maxSortingOrder + 1;
-
-			var scaler = AddUniqueComponent<CanvasScaler>();
-			scaler.uiScaleMode = CanvasScaler.ScaleMode.ScaleWithScreenSize;
-			scaler.referenceResolution = new Vector2(1024f, 800f);
-			scaler.screenMatchMode = CanvasScaler.ScreenMatchMode.Expand;
-			scaler.matchWidthOrHeight = 0f;
-
-			AddUniqueComponent<GraphicRaycaster>();
-
-			ActivateBlockingPanel();
-		}
-
-		/// <summary>
-		/// コンポーネントをつける（あればつけない）
-		/// </summary>
-		private T AddUniqueComponent<T>() where T : Component
-		{
-			var component = gameObject.GetComponent<T>();
-			if (component == null)
-			{
-				component = gameObject.AddComponent<T>();
-			}
-			return component;
-		}
-
-		/// <summary>
-		/// タッチ防止パネルを有効化する
-		/// </summary>
-		private void ActivateBlockingPanel()
-		{
-			if (_blockingPanel == null)
-			{
-				_blockingPanel = new GameObject("Block");
-				_blockingPanel.transform.SetParent(transform);
-
-				var image = _blockingPanel.AddComponent<Image>();
-				image.rectTransform.anchorMin = Vector2.zero;
-				image.rectTransform.anchorMax = Vector2.one;
-				image.rectTransform.offsetMin = new Vector2(0f, 0f);
-				image.rectTransform.offsetMax = new Vector2(0f, 0f);
-				image.color = Color.white;
-			}
-			_blockingPanel.SetActive(true);
+			canvas.Activate();
 		}
 
 		/// <summary>
@@ -134,10 +73,20 @@ namespace RuntimeObjectEditor
 				return;
 			}
 
+			if (guiStyle == null)
+			{
+				guiStyle = new EditorGUIStyle();
+			}
+
+			var skin = GUI.skin;
+			GUI.skin = guiStyle.GetSkin();
+
 			using(new GUILayout.AreaScope(new Rect(0f, 0f, Screen.width, Screen.height), string.Empty, GUI.skin.box))
 			{
 				DrawScreen();
 			}
+
+			GUI.skin = skin;
 		}
 
 		/// <summary>
@@ -198,10 +147,7 @@ namespace RuntimeObjectEditor
 				return;
 			}
 
-			if (_blockingPanel != null)
-			{
-				_blockingPanel.SetActive(false);
-			}
+			canvas.Deactivate();
 
 			_enable = false;
 			if (_onClose != null)
